@@ -43,18 +43,18 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <h1>Special Github Users</h1>
-        {this.state.followers.map(follower => (
-          <div className="follower-div">
-            <UserCard
-              html_url={follower.html_url}
-              login={follower.login}
-              avatar_url={follower.avatar_url}
-              email={follower.email}
-            />
-          </div>
-        ))}
+      <div className="container">
+        <div className="App">
+          <h1>Tomas395's Followers</h1>
+          {this.state.followers.map(follower => (
+            <div className="card-img">
+              <UserCard
+                login={follower.login}
+                avatar_url={follower.avatar_url}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
