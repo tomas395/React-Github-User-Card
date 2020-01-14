@@ -1,10 +1,63 @@
 import React from "react";
 import axios from "axios";
-import logo from "./logo.svg";
+import UserCard from "./components/Githubcard";
 import "./App.css";
 
-function App() {
-  return <div className="App">OH HI</div>;
+class App extends React.Component {
+  state = {
+    email: "",
+    login: "",
+    location: "",
+    avatar: "",
+    followers: []
+  };
+
+  componentDidMount() {
+    axios
+      .get("https://api.github.com/users/tomas395")
+      .then(res => {
+        console.log("Fetched!", res);
+        this.setState({
+          email: res.data.email,
+          login: res.data.login,
+          location: res.data.location,
+          avatar: res.data.avatar_url
+        });
+      })
+      .catch(err => {
+        console.log("Error: The data was not returned!", err);
+      });
+
+    axios
+      .get("https://api.github.com/users/tomas395/followers")
+      .then(res => {
+        console.log("Fetched!", res);
+        this.setState({
+          followers: res.data
+        });
+      })
+      .catch(err => {
+        console.log("Error: The data was not returned!", err);
+      });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Special Github Users</h1>
+        {this.state.followers.map(follower => (
+          <div className="follower-div">
+            <UserCard
+              html_url={follower.html_url}
+              login={follower.login}
+              avatar_url={follower.avatar_url}
+              email={follower.email}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
 
 export default App;
